@@ -1,0 +1,33 @@
+﻿<Window x:Class="пр_7._24.ClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:пр_7._24"
+        mc:Ignorable="d"
+        Title="ClientWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="out" Content="Выход" Grid.Column="0" Click="out_Click"/>
+            <TextBox Grid.Column="1" x:Name="message"/>
+            <Button x:Name="go" Content="Отправить" Grid.Column="2" Click="go_Click"/>
+        </Grid>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Пользователи" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px" FontWeight="Black"/>
+        <ListBox x:Name="clients_list" Grid.Row="1" Grid.Column="0"/>
+        <ListBox x:Name="dialoge" Grid.Row="1" Grid.Column="1" />
+    </Grid>
+</Window>

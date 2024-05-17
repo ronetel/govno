@@ -1,0 +1,24 @@
+﻿<Window x:Class="пр_7._24.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:пр_7._24"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="WhatsApp" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px"/>
+        <TextBox x:Name="name_client" Grid.Row="1" />
+        <TextBox x:Name="ip_server" Grid.Row="4" />
+        <Button  x:Name="Server_but" Grid.Row="2" Content="короче я сервер" Click="Server_but_Click"/>
+        <Button  x:Name="Client_but" Grid.Row="3" Content="а я клиент" Click="But_Click"/>
+        
+    </Grid>
+</Window>
