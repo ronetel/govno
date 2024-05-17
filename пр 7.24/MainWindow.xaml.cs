@@ -22,15 +22,20 @@ namespace пр_7._24
         {
             InitializeComponent();
         }
-       
-
         private void But_Click(object sender, RoutedEventArgs e)
         {
-            string ip = ip_server.Text;
-            string name = name_client.Text;
-            ClientWindow clientWindow = new ClientWindow(ip,name);
-            clientWindow.Show();
-            Close();
+            if (ip_server.Text != null && name_client.Text != null)
+            {
+                string ip = ip_server.Text;
+                string name = name_client.Text;
+                ClientWindow clientWindow = new ClientWindow(ip, name);
+                clientWindow.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("эу, все поля заполни (имя и айпи)");
+            }
         }
 
         private void Server_but_Click(object sender, RoutedEventArgs e)

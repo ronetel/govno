@@ -20,18 +20,20 @@ namespace пр_7._24
     /// </summary>
     public partial class ClientWindow : Window
     {
+        private CancellationTokenSource cts;
         DateTime _date = DateTime.Now;
         Socket socket;
-        List<Socket> clients = new List<Socket>();
+
         public ClientWindow(string ip, string name)
         {
             InitializeComponent();
-            socket = new Socket(AddressFamily.InterNetwork,SocketType.Stream, ProtocolType.Tcp);
+            cts = new CancellationTokenSource();
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ip, 8888);
             SendMassage($"#{name}");
-            ReceiveName();
+            ReceiveName(cts.Token);
         }
-        
+
         private void out_Click(object sender, RoutedEventArgs e)
         {
             SendMassage("/disconnect");
@@ -41,21 +43,22 @@ namespace пр_7._24
         {
             SendMassage(message.Text);
         }
-        private async void SendMassage(string massage)
+        private async Task SendMassage(string massage)
         {
             byte[] bytes = Encoding.UTF8.GetBytes($" [{_date}] {massage}");
             await socket.SendAsync(bytes);
             if (massage == "/disconnect")
             {
-                MainWindow mainWindow = new MainWindow();
+                cts.Cancel();
+                MainWindow mainWindow = new();
                 mainWindow.Show();
                 Close();
             }
         }
-        private async void ReceiveName()
+        private async void ReceiveName(CancellationToken token)
         {
-            while (true)
-            {   
+            while (!token.IsCancellationRequested)
+            {
                 var prikol = new byte[65536];
                 await socket.ReceiveAsync(prikol);
                 string name = Encoding.UTF8.GetString(prikol);
@@ -68,17 +71,6 @@ namespace пр_7._24
                 {
                     dialoge.Items.Add(name);
                 }
-            }
-        }
-        private async void ReceiveMessage()
-        {
-            while (true)
-            {
-                var krestik = new byte[65535];
-                await socket.ReceiveAsync(krestik);
-                string massage = Encoding.UTF8.GetString(krestik);
-                dialoge.Items.Add(massage);
-
             }
         }
     }
