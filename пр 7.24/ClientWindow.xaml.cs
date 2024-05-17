@@ -15,23 +15,21 @@ using System.Windows.Shapes;
 
 namespace пр_7._24
 {
-    /// <summary>
-    /// Логика взаимодействия для ClientWindow.xaml
-    /// </summary>
+    /// <summary> 
+    /// Логика взаимодействия для ClientWindow.xaml 
+    /// </summary> 
     public partial class ClientWindow : Window
     {
-        private CancellationTokenSource cts;
-        DateTime _date = DateTime.Now;
         Socket socket;
-
+        string Name { get; set; }
         public ClientWindow(string ip, string name)
         {
+            this.Name = name;
             InitializeComponent();
-            cts = new CancellationTokenSource();
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ip, 8888);
             SendMassage($"#{name}");
-            ReceiveName(cts.Token);
+            ReceiveName();
         }
 
         private void out_Click(object sender, RoutedEventArgs e)
@@ -43,35 +41,40 @@ namespace пр_7._24
         {
             SendMassage(message.Text);
         }
-        private async Task SendMassage(string massage)
+        private async void SendMassage(string massage)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes($" [{_date}] {massage}");
+            DateTime date = DateTime.Now;
+            byte[] bytes = Encoding.UTF8.GetBytes($"[{date}] [{Name}] - {massage}");
             await socket.SendAsync(bytes);
             if (massage == "/disconnect")
             {
-                cts.Cancel();
                 MainWindow mainWindow = new();
                 mainWindow.Show();
                 Close();
             }
         }
-        private async void ReceiveName(CancellationToken token)
+        private async void ReceiveName()
         {
-            while (!token.IsCancellationRequested)
+            while (true)
             {
-                var prikol = new byte[65536];
-                await socket.ReceiveAsync(prikol);
-                string name = Encoding.UTF8.GetString(prikol);
-                if (name.Contains('#'))
+                var bytes = new byte[65536];
+                await socket.ReceiveAsync(bytes);
+                string mess = Encoding.UTF8.GetString(bytes);
+                string[] names = mess.Split('#');
+
+                foreach (string name in names)
                 {
-                    string jopa = name.Split("#")[1];
-                    clients_list.Items.Add(jopa);
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        clients_list.Items.Add(name);
+                    }
                 }
-                else
+                if (!mess.Contains('#'))
                 {
-                    dialoge.Items.Add(name);
+                    dialoge.Items.Add(mess);
                 }
             }
         }
+
     }
 }
