@@ -60,19 +60,24 @@ namespace пр_7._24
                 var bytes = new byte[65536];
                 await socket.ReceiveAsync(bytes);
                 string mess = Encoding.UTF8.GetString(bytes);
-                string[] names = mess.Split('#');
-
-                foreach (string name in names)
+                if (mess.Contains('#'))
                 {
-                    if (!string.IsNullOrEmpty(name))
+                    string[] names = mess.Split('#');
+                    foreach (string name in names)
                     {
-                        clients_list.Items.Add(name);
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            clients_list.Items.Add(name);
+                        }
                     }
+
                 }
-                if (!mess.Contains('#'))
+                else
                 {
                     dialoge.Items.Add(mess);
                 }
+                    
+                
             }
         }
 
