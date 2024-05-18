@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:пр_7._24"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600">
+        Title="эй гайс у меня все найс" Height="450" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
@@ -14,11 +14,10 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="WhatsApp" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px"/>
-        <TextBox x:Name="name_client" Grid.Row="1" />
-        <TextBox x:Name="ip_server" Grid.Row="4" />
+        <TextBlock Grid.Row="0" Text="WhatsApp" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px" FontWeight="Black"  />
+        <TextBox  x:Name="name_client" Grid.Row="1"  VerticalAlignment="Center"/>
+        <TextBox x:Name="ip_server" Grid.Row="4" VerticalAlignment="Center"/>
         <Button  x:Name="Server_but" Grid.Row="2" Content="короче я сервер" Click="Server_but_Click"/>
         <Button  x:Name="Client_but" Grid.Row="3" Content="а я клиент" Click="But_Click"/>
-        
     </Grid>
 </Window>

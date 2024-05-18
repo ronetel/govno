@@ -20,21 +20,31 @@ namespace пр_7._24
     /// </summary> 
     public partial class ClientWindow : Window
     {
+        private CancellationTokenSource cts;
         Socket socket;
         string Name { get; set; }
         public ClientWindow(string ip, string name)
         {
             this.Name = name;
             InitializeComponent();
+            cts = new CancellationTokenSource();
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ip, 8888);
             SendMassage($"#{name}");
-            ReceiveName();
+            ReceiveName(cts.Token);
+
+            this.Closing += ClientWindow_Closing;
         }
 
         private void out_Click(object sender, RoutedEventArgs e)
         {
             SendMassage("/disconnect");
+            Dispatcher.Invoke(() =>
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            });
         }
 
         private void go_Click(object sender, RoutedEventArgs e)
@@ -45,17 +55,26 @@ namespace пр_7._24
         {
             DateTime date = DateTime.Now;
             byte[] bytes = Encoding.UTF8.GetBytes($"[{date}] [{Name}] - {massage}");
-            await socket.SendAsync(bytes);
+
+            await socket.SendAsync(bytes, SocketFlags.None);
             if (massage == "/disconnect")
             {
-                MainWindow mainWindow = new();
-                mainWindow.Show();
-                Close();
+                cts.Cancel();
             }
         }
-        private async void ReceiveName()
+        private void ClientWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            while (true)
+            if (socket.Connected)
+            {
+                SendMassage("/disconnect");
+
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+        }
+        private async Task ReceiveName(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
             {
                 var bytes = new byte[65536];
                 await socket.ReceiveAsync(bytes);
@@ -70,14 +89,11 @@ namespace пр_7._24
                             clients_list.Items.Add(name);
                         }
                     }
-
                 }
                 else
                 {
                     dialoge.Items.Add(mess);
                 }
-                    
-                
             }
         }
 

@@ -24,7 +24,7 @@ namespace пр_7._24
         }
         private void But_Click(object sender, RoutedEventArgs e)
         {
-            if (ip_server.Text != null && name_client.Text != null)
+            if (!string.IsNullOrEmpty(ip_server.Text) && !string.IsNullOrEmpty(name_client.Text))
             {
                 string ip = ip_server.Text;
                 string name = name_client.Text;
@@ -34,15 +34,23 @@ namespace пр_7._24
             }
             else
             {
-                MessageBox.Show("эу, все поля заполни (имя и айпи)");
+                MessageBox.Show("эу, ну ка все поля заполни (имя и айпи)");
             }
         }
 
         private void Server_but_Click(object sender, RoutedEventArgs e)
         {
-            ServerWindow serverWindow = new ServerWindow();
-            serverWindow.Show();
-            Close();
+            if (!string.IsNullOrEmpty(name_client.Text))
+            {
+                string name = name_client.Text; 
+                ServerWindow serverWindow = new ServerWindow(name);
+                serverWindow.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("хоть ты и сервер но введи имя пжпжпжпжпж");
+            }
         }
     }
 }

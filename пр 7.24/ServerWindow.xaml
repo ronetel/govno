@@ -7,16 +7,30 @@
         mc:Ignorable="d"
         Title="ServerWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Сервер" HorizontalAlignment="Center" Margin="5" FontSize="30"/>
-        <TextBlock Text="Сообщения: " Grid.Row="1" HorizontalAlignment="Center" Margin="5" FontSize="30"/>
-        <ListBox Grid.Row="2" x:Name="MessagesLbx"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="out" Content="Выход" Grid.Column="0" Click="out_Click"/>
+            <TextBox Grid.Column="1" x:Name="massage"/>
+            <Button x:Name="go" Content="Отправить" Grid.Column="2" Click="go_Click"/>
+        </Grid>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Логи" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px" FontWeight="Black"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Пользователи" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px" FontWeight="Black"/>
+        <ListBox x:Name="clients_list" Grid.Row="1" Grid.Column="0"/>
+        <ListBox x:Name="dialoge" Grid.Row="1" Grid.Column="2" />
+        <ListBox x:Name="Logi" Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Window>
